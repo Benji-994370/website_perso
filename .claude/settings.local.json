@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.boldys.ai)",
+      "WebFetch(domain:www.kurationai.com)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_run_code",
+      "mcp__playwright__browser_hover",
+      "Bash(python3:*)",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_close",
+      "mcp__playwright__browser_wait_for",
+      "Bash(curl:*)",
+      "Bash(ls:*)",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_evaluate",
+      "Bash(pip3 show:*)",
+      "Bash(pip3 install:*)",
+      "Bash(npm install)",
+      "Bash(source /Users/boldysai/.zshrc)",
+      "WebFetch(domain:github.com)",
+      "Bash(kill:*)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(gh repo view:*)",
+      "Bash(git clone:*)",
+      "mcp__playwright__browser_fill_form",
+      "Bash(find:*)",
+      "Bash(lsof:*)",
+      "Bash(npm run dev)",
+      "Bash(chmod:*)",
+      "Bash(code --list-extensions)",
+      "Bash(/Applications/Visual\\\\ Studio\\\\ Code.app/Contents/Resources/app/bin/code:*)"
+    ]
+  }
+}
