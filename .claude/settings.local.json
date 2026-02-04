@@ -30,7 +30,8 @@
       "Bash(npm run dev)",
       "Bash(chmod:*)",
       "Bash(code --list-extensions)",
-      "Bash(/Applications/Visual\\\\ Studio\\\\ Code.app/Contents/Resources/app/bin/code:*)"
+      "Bash(/Applications/Visual\\\\ Studio\\\\ Code.app/Contents/Resources/app/bin/code:*)",
+      "Bash(git config:*)"
     ]
   }
 }
