@@ -1,5 +1,11 @@
+// Page load transition — fade out the loading overlay once everything is ready
+window.addEventListener('load', () => {
+    document.body.classList.remove('loading');
+    document.body.classList.add('loaded');
+});
+
 // Smooth scroll with offset for fixed header
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
@@ -56,16 +62,44 @@ document.querySelectorAll('.testimonial').forEach((testimonial) => {
 // Consolidated scroll handler (parallax + header)
 const header = document.querySelector('.header');
 const shapes = document.querySelectorAll('.hero-bg-shape');
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 let ticking = false;
 
 function onScroll() {
     const scrolled = window.pageYOffset;
 
-    // Parallax effect for hero background shapes
-    shapes.forEach((shape, index) => {
-        const speed = (index + 1) * 0.3;
-        shape.style.transform = `translateY(${-(scrolled * speed)}px)`;
+    // Parallax effect for hero background shapes (skip if reduced motion)
+    if (!prefersReducedMotion) {
+        shapes.forEach((shape, index) => {
+            const speed = (index + 1) * 0.3;
+            shape.style.transform = `translateY(${-(scrolled * speed)}px)`;
+        });
+    }
+
+    // Active navigation highlighting
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+    let currentSection = '';
+
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop - 150;
+        if (scrolled >= sectionTop) {
+            currentSection = section.getAttribute('id');
+        }
     });
+
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${currentSection}`) {
+            link.classList.add('active');
+        }
+    });
+
+    // Show/hide scroll-to-top button
+    const scrollTopBtn = document.querySelector('.scroll-to-top');
+    if (scrollTopBtn) {
+        scrollTopBtn.classList.toggle('visible', scrolled > 600);
+    }
 
     // Header background change
     if (scrolled > 100) {
@@ -196,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- Services Modal ---
     const modal = document.querySelector('.modal-overlay');
-    const modalTriggers = document.querySelectorAll('.service-cta');
+    const modalTriggers = document.querySelectorAll('.service-cta, .consultation-trigger');
     const modalClose = document.querySelector('.modal-close');
 
     if (modal) {
@@ -229,6 +263,75 @@ document.addEventListener('DOMContentLoaded', function() {
             if (e.key === 'Escape' && modal.classList.contains('active')) {
                 modal.classList.remove('active');
                 document.body.style.overflow = '';
+            }
+        });
+    }
+
+    // --- Stat Counter Animation ---
+    // Numbers count up when scrolled into view (uses Intersection Observer like the rest of the site)
+    const statNumbers = document.querySelectorAll('.hero-stat-number[data-count]');
+    if (statNumbers.length > 0) {
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const target = parseInt(el.dataset.count);
+                    const suffix = el.dataset.suffix || '';
+                    let current = 0;
+                    const duration = 1500; // 1.5 seconds
+                    const steps = duration / 16; // ~60fps
+                    const increment = Math.max(1, Math.ceil(target / steps));
+
+                    function count() {
+                        current += increment;
+                        if (current >= target) {
+                            el.textContent = target + suffix;
+                        } else {
+                            el.textContent = current + suffix;
+                            requestAnimationFrame(count);
+                        }
+                    }
+                    requestAnimationFrame(count);
+                    statsObserver.unobserve(el);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        statNumbers.forEach(el => statsObserver.observe(el));
+    }
+
+    // --- Scroll-to-Top Button ---
+    const scrollTopBtn = document.querySelector('.scroll-to-top');
+    if (scrollTopBtn) {
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    // --- Touch/Swipe Support for Testimonial Carousel ---
+    // Swipe left/right to navigate testimonials on mobile
+    const carouselForSwipe = document.querySelector('.testimonial-wrapper');
+    if (carouselForSwipe) {
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const swipeThreshold = 50;
+
+        carouselForSwipe.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        carouselForSwipe.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > swipeThreshold) {
+                // Access carousel functions via buttons (they're in the same scope)
+                const nextBtn = document.querySelector('.carousel-next');
+                const prevBtn = document.querySelector('.carousel-prev');
+                if (diff > 0 && nextBtn) {
+                    nextBtn.click();
+                } else if (diff < 0 && prevBtn) {
+                    prevBtn.click();
+                }
             }
         });
     }

@@ -6,13 +6,17 @@
     <title>Privacy Policy - Ben Audry</title>
     <meta name="description" content="Privacy Policy for Ben Audry's portfolio website.">
     <meta name="theme-color" content="#0f0f0f">
+    <meta property="og:image" content="images/profile/benjamin-audry.jpg">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='%23BDB76B'>◆</text></svg>">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <div class="grain"></div>
+
     <header class="header">
         <div class="header-content">
             <div class="logo">
@@ -22,9 +26,9 @@
             <nav class="nav" id="main-nav">
                 <a href="index.html#about" class="nav-link">About Me</a>
                 <a href="index.html#services" class="nav-link">My Services</a>
+                <a href="index.html#testimonials" class="nav-link">Testimonials</a>
                 <a href="index.html#toolbox" class="nav-link">My Toolbox</a>
                 <a href="index.html#work" class="nav-link">My Work</a>
-                <a href="index.html#testimonials" class="nav-link">Testimonials</a>
                 <a href="index.html#contact" class="nav-link">Contact Me</a>
             </nav>
             <button class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
@@ -36,6 +40,7 @@
     </header>
     <div class="nav-backdrop"></div>
 
+    <main id="main-content">
     <!-- Privacy Policy Content -->
     <section class="legal-page">
         <div class="container">
@@ -62,17 +67,25 @@
             </div>
         </div>
     </section>
+    </main>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-left">
-                <span>© 2026 Ben Audry</span>
-                <span class="footer-separator">•</span>
-                <a href="privacy-policy.html" class="footer-link">Privacy Policy</a>
+                <div class="footer-brand">
+                    <span class="logo-mark">◆</span>
+                    <span class="footer-brand-name">Ben Audry</span>
+                </div>
+                <span class="footer-tagline">Automation, AI & Custom Platforms</span>
+            </div>
+            <div class="footer-center">
+                <span>Based in Hong Kong</span>
             </div>
             <div class="footer-right">
-                <span>Automation, AI & Custom Platforms • Hong Kong</span>
+                <span>© 2026 Ben Audry</span>
+                <span class="footer-separator">·</span>
+                <a href="privacy-policy.html" class="footer-link">Privacy Policy</a>
             </div>
         </div>
     </footer>
