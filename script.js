@@ -12,6 +12,18 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 top: offsetPosition,
                 behavior: 'smooth'
             });
+
+            // Close mobile nav if open
+            const nav = document.getElementById('main-nav');
+            const hamburger = document.querySelector('.hamburger');
+            const backdrop = document.querySelector('.nav-backdrop');
+            if (nav && nav.classList.contains('nav-open')) {
+                nav.classList.remove('nav-open');
+                hamburger.classList.remove('active');
+                hamburger.setAttribute('aria-expanded', 'false');
+                backdrop.classList.remove('active');
+                document.body.style.overflow = '';
+            }
         }
     });
 });
@@ -76,122 +88,149 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Custom cursor removed for performance
+// ============================================
+// All DOMContentLoaded logic consolidated
+// ============================================
+document.addEventListener('DOMContentLoaded', function() {
 
-// Add stagger animation to project cards
-const projects = document.querySelectorAll('.project');
-projects.forEach((project, index) => {
-    project.style.transitionDelay = `${index * 0.15}s`;
-});
+    // --- Hamburger Menu ---
+    const hamburger = document.querySelector('.hamburger');
+    const nav = document.getElementById('main-nav');
+    const backdrop = document.querySelector('.nav-backdrop');
 
-// Preload critical fonts
-const preloadFonts = () => {
-    const fonts = [
-        new FontFace('Cormorant Garamond', 'url(https://fonts.gstatic.com/s/cormorantgaramond/v16/co3bmX5slCNuHLi8bLeY9MK7whWMhyjQAllvuQWJ5heb_w.woff2)'),
-        new FontFace('Work Sans', 'url(https://fonts.gstatic.com/s/worksans/v18/QGY_z_wNahGAdqQ43RhVcIgYT2Xz5u32K0nWNigDp6_cOyA.woff2)')
-    ];
-
-    fonts.forEach(font => {
-        font.load().then(loadedFont => {
-            document.fonts.add(loadedFont);
+    if (hamburger && nav) {
+        hamburger.addEventListener('click', function() {
+            const isOpen = nav.classList.toggle('nav-open');
+            hamburger.classList.toggle('active');
+            hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            if (backdrop) backdrop.classList.toggle('active');
+            document.body.style.overflow = isOpen ? 'hidden' : '';
         });
-    });
-};
 
-preloadFonts();
-
-// Testimonial Carousel with Auto-rotation
-const initTestimonialCarousel = () => {
-    const carousel = document.querySelector('.testimonial-carousel');
-    if (!carousel) return;
-
-    const wrapper = carousel.querySelector('.testimonial-wrapper');
-    const testimonials = wrapper.querySelectorAll('.testimonial');
-    const prevBtn = carousel.querySelector('.carousel-prev');
-    const nextBtn = carousel.querySelector('.carousel-next');
-    const indicators = carousel.querySelectorAll('.indicator');
-
-    let currentIndex = 0;
-    let autoRotateInterval;
-    let isPaused = false;
-
-    // Show testimonial by index
-    function showTestimonial(index) {
-        testimonials.forEach((testimonial, i) => {
-            testimonial.classList.toggle('testimonial-active', i === index);
-        });
-        indicators.forEach((indicator, i) => {
-            indicator.classList.toggle('indicator-active', i === index);
-        });
-        currentIndex = index;
-    }
-
-    // Go to next testimonial
-    function nextTestimonial() {
-        const next = (currentIndex + 1) % testimonials.length;
-        showTestimonial(next);
-    }
-
-    // Go to previous testimonial
-    function prevTestimonial() {
-        const prev = (currentIndex - 1 + testimonials.length) % testimonials.length;
-        showTestimonial(prev);
-    }
-
-    // Start auto-rotation
-    function startAutoRotate() {
-        if (autoRotateInterval) clearInterval(autoRotateInterval);
-        autoRotateInterval = setInterval(() => {
-            if (!isPaused) {
-                nextTestimonial();
-            }
-        }, 15000); // 15 seconds
-    }
-
-    // Stop auto-rotation
-    function stopAutoRotate() {
-        if (autoRotateInterval) {
-            clearInterval(autoRotateInterval);
-            autoRotateInterval = null;
+        if (backdrop) {
+            backdrop.addEventListener('click', function() {
+                nav.classList.remove('nav-open');
+                hamburger.classList.remove('active');
+                hamburger.setAttribute('aria-expanded', 'false');
+                backdrop.classList.remove('active');
+                document.body.style.overflow = '';
+            });
         }
     }
 
-    // Event listeners for controls
-    prevBtn.addEventListener('click', () => {
-        prevTestimonial();
-        stopAutoRotate();
+    // --- Testimonial Carousel ---
+    const carousel = document.querySelector('.testimonial-carousel');
+    if (carousel) {
+        const wrapper = carousel.querySelector('.testimonial-wrapper');
+        const testimonials = wrapper.querySelectorAll('.testimonial');
+        const prevBtn = carousel.querySelector('.carousel-prev');
+        const nextBtn = carousel.querySelector('.carousel-next');
+        const indicators = carousel.querySelectorAll('.indicator');
+
+        let currentIndex = 0;
+        let autoRotateInterval;
+        let isPaused = false;
+
+        function showTestimonial(index) {
+            testimonials.forEach((testimonial, i) => {
+                testimonial.classList.toggle('testimonial-active', i === index);
+            });
+            indicators.forEach((indicator, i) => {
+                indicator.classList.toggle('indicator-active', i === index);
+            });
+            currentIndex = index;
+
+            // Dynamically adjust wrapper height
+            const activeTestimonial = testimonials[index];
+            if (activeTestimonial && wrapper) {
+                requestAnimationFrame(() => {
+                    const testimonialHeight = activeTestimonial.offsetHeight;
+                    wrapper.style.height = `${testimonialHeight + 80}px`;
+                });
+            }
+        }
+
+        function nextTestimonial() {
+            showTestimonial((currentIndex + 1) % testimonials.length);
+        }
+
+        function prevTestimonial() {
+            showTestimonial((currentIndex - 1 + testimonials.length) % testimonials.length);
+        }
+
+        function startAutoRotate() {
+            if (autoRotateInterval) clearInterval(autoRotateInterval);
+            autoRotateInterval = setInterval(() => {
+                if (!isPaused) nextTestimonial();
+            }, 15000);
+        }
+
+        function stopAutoRotate() {
+            if (autoRotateInterval) {
+                clearInterval(autoRotateInterval);
+                autoRotateInterval = null;
+            }
+        }
+
+        prevBtn.addEventListener('click', () => { prevTestimonial(); stopAutoRotate(); startAutoRotate(); });
+        nextBtn.addEventListener('click', () => { nextTestimonial(); stopAutoRotate(); startAutoRotate(); });
+
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => { showTestimonial(index); stopAutoRotate(); startAutoRotate(); });
+        });
+
+        // Keyboard navigation for carousel
+        carousel.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') { prevTestimonial(); stopAutoRotate(); startAutoRotate(); }
+            if (e.key === 'ArrowRight') { nextTestimonial(); stopAutoRotate(); startAutoRotate(); }
+        });
+
+        testimonials.forEach((testimonial) => {
+            testimonial.addEventListener('mouseenter', () => { isPaused = true; });
+            testimonial.addEventListener('mouseleave', () => { isPaused = false; });
+        });
+
+        showTestimonial(0);
         startAutoRotate();
-    });
+    }
 
-    nextBtn.addEventListener('click', () => {
-        nextTestimonial();
-        stopAutoRotate();
-        startAutoRotate();
-    });
+    // --- Services Modal ---
+    const modal = document.querySelector('.modal-overlay');
+    const modalTriggers = document.querySelectorAll('.service-cta');
+    const modalClose = document.querySelector('.modal-close');
 
-    // Event listeners for indicators
-    indicators.forEach((indicator, index) => {
-        indicator.addEventListener('click', () => {
-            showTestimonial(index);
-            stopAutoRotate();
-            startAutoRotate();
-        });
-    });
-
-    // Pause on hover over any testimonial
-    testimonials.forEach((testimonial) => {
-        testimonial.addEventListener('mouseenter', () => {
-            isPaused = true;
+    if (modal) {
+        modalTriggers.forEach(trigger => {
+            trigger.addEventListener('click', function(e) {
+                const href = trigger.getAttribute('href');
+                if (!href || href === '#') {
+                    e.preventDefault();
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
         });
 
-        testimonial.addEventListener('mouseleave', () => {
-            isPaused = false;
+        if (modalClose) {
+            modalClose.addEventListener('click', function() {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        }
+
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
         });
-    });
 
-    // Initialize
-    showTestimonial(0);
-    startAutoRotate();
-};
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    }
 
-document.addEventListener('DOMContentLoaded', initTestimonialCarousel);
+}); // end DOMContentLoaded

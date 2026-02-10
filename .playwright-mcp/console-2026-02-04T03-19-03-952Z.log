@@ -1,5 +1,0 @@
-[    1034ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://fonts.gstatic.com/s/worksans/v18/QGY_z_wNahGAdqQ43RhVcIgYT2Xz5u32K0nWNigDp6_cOyA.woff2:0
-[    1067ms] A network error occurred.
-[    1521ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://fonts.gstatic.com/s/cormorantgaramond/v16/co3bmX5slCNuHLi8bLeY9MK7whWMhyjQAllvuQWJ5heb_w.woff2:0
-[    1547ms] A network error occurred.
-[    1548ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:8000/favicon.ico:0

@@ -1,0 +1,67 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Temporary files
+.tmp/*
+!.tmp/.gitkeep
+
+# Logs
+*.log
+.playwright-mcp/*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment variables
+.env
+.env.local
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Thumbnails
+._*
+
+# Files that might contain sensitive data
+*.pem
+*.key
+*.cert
+
+# Node modules (if ever added)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs (if ever added)
+dist/
+build/
+out/
+
+# Source/original files (processed versions live in images/)
+assets/
+
+# Playwright MCP
+.playwright-mcp/
+
+# Large unoptimized images (should be in .tmp or optimized)
+*-unoptimized.*
+*-original.*

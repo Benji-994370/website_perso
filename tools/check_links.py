@@ -49,6 +49,10 @@ class LinkExtractor(HTMLParser):
                 'url': attrs_dict['src']
             })
         elif tag == 'link' and 'href' in attrs_dict:
+            # Skip preconnect and dns-prefetch hints (not navigable resources)
+            rel = attrs_dict.get('rel', '')
+            if rel in ('preconnect', 'dns-prefetch'):
+                return
             self.links.append({
                 'type': 'link',
                 'url': attrs_dict['href']
@@ -74,6 +78,8 @@ def categorize_link(url: str) -> str:
         return 'empty'
     if url.startswith('#'):
         return 'anchor'
+    if url.startswith('data:'):
+        return 'data'
     if url.startswith('mailto:'):
         return 'mailto'
     if url.startswith('tel:'):
@@ -126,6 +132,9 @@ def check_external_link(url: str, timeout: int = 5) -> dict:
 
         if response.status_code < 400:
             return {'status': 'ok', 'message': f'HTTP {response.status_code}'}
+        elif response.status_code in (403, 405):
+            # Many sites block automated HEAD requests — treat as warning
+            return {'status': 'warning', 'message': f'HTTP {response.status_code} (likely bot protection)'}
         else:
             return {'status': 'error', 'message': f'HTTP {response.status_code}'}
 
@@ -197,9 +206,9 @@ def check_all_links(
             result['message'] = f'{category.capitalize()} link'
             results['ok'].append(result)
 
-        elif category == 'javascript':
+        elif category == 'javascript' or category == 'data':
             result['status'] = 'skipped'
-            result['message'] = 'JavaScript link'
+            result['message'] = f'{category.capitalize()} URI'
             results['skipped'].append(result)
 
         elif category == 'internal':
