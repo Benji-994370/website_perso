@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Purple Sales — Benjamin Audry</title>
+    <title>Purple Sales | Ben Audry</title>
+    <meta name="description" content="Purple Sales case study. CRM workflows and automation pipelines for 15+ client revenue systems. Built by Ben Audry.">
+    <meta name="theme-color" content="#0f0f0f">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='%23BDB76B'>◆</text></svg>">
+    <meta property="og:title" content="Purple Sales | Ben Audry">
+    <meta property="og:description" content="CRM workflows and automation pipelines for 15+ client revenue systems.">
+    <meta property="og:type" content="article">
     <link rel="stylesheet" href="../style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,16 +22,24 @@
         <div class="header-content">
             <div class="logo">
                 <span class="logo-mark">◆</span>
-                <span class="logo-text">Benjamin Audry</span>
+                <span class="logo-text">Ben Audry</span>
             </div>
-            <nav class="nav">
-                <a href="../index.html#about" class="nav-link">About</a>
-                <a href="../index.html#work" class="nav-link">Work</a>
+            <nav class="nav" id="main-nav">
+                <a href="../index.html#about" class="nav-link">About Me</a>
+                <a href="../index.html#services" class="nav-link">My Services</a>
+                <a href="../index.html#toolbox" class="nav-link">My Toolbox</a>
+                <a href="../index.html#work" class="nav-link">My Work</a>
                 <a href="../index.html#testimonials" class="nav-link">Testimonials</a>
-                <a href="../index.html#contact" class="nav-link">Contact</a>
+                <a href="../index.html#contact" class="nav-link">Contact Me</a>
             </nav>
+            <button class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
         </div>
     </header>
+    <div class="nav-backdrop"></div>
 
     <main class="project-detail">
         <a href="../index.html#work" class="back-link">
@@ -36,7 +50,7 @@
         </a>
 
         <div class="project-hero">
-            <img src="../images/purple-sales-logo.jpg" alt="Purple Sales" class="project-hero-logo">
+            <img src="../images/logos/purple-sales-logo.jpg" alt="Purple Sales" class="project-hero-logo" loading="lazy" width="80" height="80">
             <div class="project-hero-info">
                 <h1>Purple Sales</h1>
                 <p class="meta">2023 - 2024 • Marketing Operations</p>
@@ -45,75 +59,70 @@
 
         <section class="project-section">
             <h2>Overview</h2>
-            <p>As Operations Manager at Purple Sales, I managed 15+ client revenue systems, architecting CRM workflows, automation pipelines, and cross-functional processes. Built scalable operations infrastructure using HubSpot, Zapier, and custom integrations.</p>
+            <p>As Bilingual Marketing Operations Manager & Account Manager at Purple Sales Solutions, I managed marketing operations for 15+ international client accounts. I implemented and optimized CRM and automation tools, coordinated cross-functional teams, and delivered tailored strategies that improved client retention and acquisition.</p>
 
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-number">15+</div>
-                    <div class="stat-label">Client Systems</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">50+</div>
-                    <div class="stat-label">Automations Built</div>
+                    <div class="stat-label">Client Accounts</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number">HubSpot</div>
                     <div class="stat-label">Primary CRM</div>
                 </div>
-            </div>
-        </section>
-
-        <section class="project-section">
-            <h2>Workflows & Automations</h2>
-
-            <div class="workflow-card">
-                <h3>HubSpot CRM Architecture</h3>
-                <p>Designed comprehensive CRM setups including custom properties, pipelines, and automated workflows for sales and marketing alignment.</p>
-                <div class="workflow-placeholder">
-                    [Screenshot placeholder - Add HubSpot workflow diagram here]
-                </div>
-            </div>
-
-            <div class="workflow-card">
-                <h3>Lead Scoring & Routing</h3>
-                <p>Implemented automated lead scoring systems with intelligent routing to the appropriate sales representatives based on territory, industry, and engagement.</p>
-                <div class="workflow-placeholder">
-                    [Screenshot placeholder - Add lead routing diagram here]
-                </div>
-            </div>
-
-            <div class="workflow-card">
-                <h3>Zapier Integration Pipelines</h3>
-                <p>Built complex multi-step Zaps connecting CRM, email marketing, slack notifications, and reporting tools.</p>
-                <div class="workflow-placeholder">
-                    [Screenshot placeholder - Add Zapier workflow here]
-                </div>
-            </div>
-
-            <div class="workflow-card">
-                <h3>Reporting & Analytics Dashboard</h3>
-                <p>Created custom reporting dashboards for tracking KPIs across the revenue funnel for each client.</p>
-                <div class="workflow-placeholder">
-                    [Screenshot placeholder - Add dashboard example here]
+                <div class="stat-card">
+                    <div class="stat-number">Bilingual</div>
+                    <div class="stat-label">EN / FR Operations</div>
                 </div>
             </div>
         </section>
 
         <section class="project-section">
-            <h2>Key Responsibilities</h2>
-            <p>Led the operations function across multiple B2B clients, including CRM setup, workflow automation, data management, and cross-functional process design. Worked closely with sales and marketing teams to ensure seamless handoffs and accurate reporting.</p>
+            <h2>Responsibilities</h2>
+            <ul class="project-list">
+                <li>Managed marketing operations for 15+ international client accounts</li>
+                <li>Implemented and optimized CRM and automation tools (HubSpot, Lemlist, Zapier), improving reporting accuracy and workflow efficiency</li>
+                <li>Coordinated closely with Sales, SDR, and Design teams to align marketing with business goals</li>
+                <li>Mentored and supported a marketing coordinator, enhancing onboarding and campaign performance</li>
+            </ul>
+        </section>
+
+        <section class="project-section">
+            <h2>Achievements</h2>
+            <ul class="project-list">
+                <li>Improved outbound engagement and conversion rates through data-driven adjustments</li>
+                <li>Increased client retention and satisfaction with tailored strategies and proactive account management</li>
+                <li>Streamlined marketing workflows, reducing manual workload and improving client acquisition and retention</li>
+            </ul>
+        </section>
+
+        <section class="project-section">
+            <h2>Clients</h2>
+            <p>Worked with SMEs and international companies across multiple industries:</p>
+            <div class="client-tags">
+                <span class="client-tag">HR — Atmanco, Catalyzr</span>
+                <span class="client-tag">Finance — Prophix, 3V Finance</span>
+                <span class="client-tag">Telecom — Diabolocom</span>
+                <span class="client-tag">Cybersecurity — Cyberspective</span>
+                <span class="client-tag">Utilities — Layermark</span>
+                <span class="client-tag">Recruitment — Sales Talent Group</span>
+                <span class="client-tag">Medical / Healthcare</span>
+            </div>
         </section>
     </main>
 
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-left">
-                <span>© 2026 Benjamin Audry</span>
+                <span>© 2026 Ben Audry</span>
+                <span class="footer-separator">•</span>
+                <a href="../privacy-policy.html" class="footer-link">Privacy Policy</a>
             </div>
             <div class="footer-right">
-                <span>Revenue Operations & GTM Systems • Hong Kong</span>
+                <span>Automation, AI & Custom Platforms • Hong Kong</span>
             </div>
         </div>
     </footer>
+    <script src="../script.js"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a personal portfolio website for Benjamin Audry, a B2B Growth & AI Automation specialist. The site is a single-page application built with vanilla HTML, CSS, and JavaScript - no build tools or frameworks required.
+This is a personal portfolio website for Ben Audry, a B2B Growth & AI Automation specialist. The site is a single-page application built with vanilla HTML, CSS, and JavaScript - no build tools or frameworks required.
 
 **Tech Stack:**
 - Pure HTML5, CSS3, and JavaScript (ES6+)
@@ -160,9 +160,110 @@ The portfolio has 5 main sections:
 - Modify CSS custom properties in `:root` (style.css:1-30)
 - All colors are referenced via variables, so changes propagate automatically
 
+## ⚠️ Critical Architecture Warnings
+
+### Code Duplication Risk (HIGH PRIORITY)
+
+**IMPORTANT**: Header and footer are duplicated across multiple files. When updating navigation or footer, you MUST update ALL of these files:
+
+1. `index.html` - Main page header
+2. `projects/kuration-ai.html` - Project detail header
+3. `projects/boldys-ai.html` - Project detail header
+4. `projects/purple-sales.html` - Project detail header
+5. `services/simple-automation.html` - Service detail header
+6. `services/complex-automation.html` - Service detail header
+7. `services/in-person-consulting.html` - Service detail header
+8. `privacy-policy.html` - Privacy policy header
+
+**Checklist for navigation changes:**
+- [ ] Update `index.html` header
+- [ ] Update `projects/kuration-ai.html` header
+- [ ] Update `projects/boldys-ai.html` header
+- [ ] Update `projects/purple-sales.html` header
+- [ ] Update `services/simple-automation.html` header
+- [ ] Update `services/complex-automation.html` header
+- [ ] Update `services/in-person-consulting.html` header
+- [ ] Update `privacy-policy.html` header
+- [ ] Test all navigation links work from each page
+- [ ] Run `python tools/validate_html.py` on all pages
+
+### Content Update Protocol
+
+When updating content (projects, testimonials, stats):
+1. **Always** back up the file first
+2. Edit HTML carefully to avoid breaking structure
+3. Run `python tools/validate_html.py index.html` before committing
+4. Test responsiveness at all breakpoints (480px, 768px, 1024px)
+
+### Pre-Deployment Checklist
+
+Before deploying changes:
+```bash
+# Validate HTML structure
+python tools/validate_html.py index.html
+
+# Check all links
+python tools/check_links.py index.html
+
+# Optimize any new images
+python tools/optimize_images.py path/to/image.jpg --max-width 800
+
+# Test locally
+python3 -m http.server 8000
+```
+
+## Compound Engineering
+
+This project follows the **Compound Engineering** philosophy: every piece of work should make future work easier.
+
+### The Compound Loop
+
+1. **Plan** → Research codebase patterns, best practices, framework docs before coding
+2. **Work** → Execute the plan
+3. **Assess** → Review from multiple perspectives (see below)
+4. **Compound** → Capture learnings so they apply next time
+
+### Capturing Learnings
+
+When you discover something important (a bug pattern, a better approach, a gotcha):
+
+1. **Quick fix**: Add it directly to this CLAUDE.md file
+2. **Detailed learning**: Create a file in `docs/learnings/` with frontmatter for searchability
+
+Example learning file:
+```markdown
+---
+tags: [css, responsive, bug-fix]
+date: 2025-01-15
+---
+# Mobile viewport height issue
+
+On iOS Safari, `100vh` doesn't account for the address bar.
+Use `100dvh` (dynamic viewport height) instead.
+```
+
+### Review Perspectives
+
+When reviewing changes, consider these angles:
+
+| Perspective | Focus |
+|-------------|-------|
+| **Security** | XSS, injection, exposed secrets, unsafe links |
+| **Simplicity** | Can this be done with less code? Over-engineered? |
+| **Accessibility** | Keyboard navigation, screen readers, contrast |
+| **Performance** | Image sizes, render blocking, unnecessary JS |
+| **Mobile-first** | Does it work on 320px screens? Touch targets 44px+? |
+
+### Compounding Tips
+
+- If Claude makes a mistake, say "add this to CLAUDE.md" so it won't repeat it
+- Store architecture decisions in `docs/` for future reference
+- When a pattern works well, document it as a skill in `.claude/skills/`
+- Review the compound loop after major features
+
 ## Notes
 
-- This is not a git repository (no .git folder present)
+- This is a git repository (branch: `dev`, main branch: `main`)
 - No package.json or build configuration - intentionally simple
 - All styles are in a single CSS file with clear section comments
 - The grain texture effect is achieved with an inline SVG filter in CSS

@@ -1,0 +1,53 @@
+name: Validate Website
+
+on:
+  push:
+    branches: [ dev, main ]
+  pull_request:
+    branches: [ dev, main ]
+
+jobs:
+  validate:
+    name: Validate HTML and Links
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        pip install Pillow requests
+
+    - name: Validate main page
+      run: |
+        python tools/validate_html.py index.html
+
+    - name: Validate project pages
+      run: |
+        for file in projects/*.html; do
+          echo "Validating $file..."
+          python tools/validate_html.py "$file"
+        done
+
+    - name: Check links
+      run: |
+        python tools/check_links.py index.html
+
+    - name: Check for large images
+      run: |
+        echo "Checking for images larger than 500KB..."
+        find images -type f \( -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" \) -size +500k | while read img; do
+          size=$(du -h "$img" | cut -f1)
+          echo "⚠️  Large image found: $img ($size)"
+        done
+
+    - name: Summary
+      if: success()
+      run: |
+        echo "✅ All validation checks passed!"

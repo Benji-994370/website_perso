@@ -1,0 +1,66 @@
+name: Deploy Website
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        pip install Pillow requests
+
+    - name: Run validation checks
+      run: |
+        bash tools/pre-commit-check.sh
+
+    # Uncomment and configure based on your hosting provider:
+
+    # For Netlify:
+    # - name: Deploy to Netlify
+    #   uses: netlify/actions/cli@master
+    #   env:
+    #     NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+    #     NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+    #   with:
+    #     args: deploy --prod
+
+    # For Vercel:
+    # - name: Deploy to Vercel
+    #   uses: amondnet/vercel-action@v25
+    #   with:
+    #     vercel-token: ${{ secrets.VERCEL_TOKEN }}
+    #     vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+    #     vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+    #     vercel-args: '--prod'
+
+    # For GitHub Pages:
+    # - name: Deploy to GitHub Pages
+    #   uses: peaceiris/actions-gh-pages@v3
+    #   with:
+    #     github_token: ${{ secrets.GITHUB_TOKEN }}
+    #     publish_dir: ./
+    #     exclude_assets: '.github,tools,workflows,.tmp,.git*'
+
+    - name: Deployment placeholder
+      run: |
+        echo "✅ Validation passed!"
+        echo ""
+        echo "To enable automatic deployment:"
+        echo "1. Uncomment the appropriate deployment section above"
+        echo "2. Add required secrets to GitHub repository settings"
+        echo "3. Push changes to trigger deployment"
+        echo ""
+        echo "See workflows/deploy.md for manual deployment instructions"
